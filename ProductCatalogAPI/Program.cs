@@ -203,7 +203,7 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();   // 1. Redirect semua request HTTP → HTTPS otomatis
+// app.UseHttpsRedirection();   // 1. Redirect dimatikan sementara karena test HTTP local
 app.UseCors("DevPolicy");    // 2. Terapkan CORS policy yang sudah dikonfigurasi
 app.UseRateLimiter();        // 3. Periksa batas request sebelum request diproses lebih lanjut
 app.UseAuthentication();     // 4. Baca header Authorization, validasi JWT, set User.Identity

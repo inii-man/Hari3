@@ -89,22 +89,53 @@ Buka `appsettings.json`, pastikan bagian `Jwt` berisi:
 
 ---
 
-## 📦 Langkah 4 — Restore Dependencies
+## 📦 Langkah 4 — Install NuGet Packages
+
+> Jika project sudah di-clone dan file `.csproj` sudah ada, cukup jalankan `dotnet restore`.
+> Jika membuat project **baru dari nol**, install semua paket berikut satu per satu:
+
+```bash
+# JWT Authentication middleware
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.0
+
+# Entity Framework Core (ORM)
+dotnet add package Microsoft.EntityFrameworkCore --version 8.0.0
+
+# EF Core design tools — untuk perintah dotnet ef migrations
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 8.0.0
+
+# Driver PostgreSQL untuk EF Core
+dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 8.0.0
+
+# Hashing password dengan BCrypt
+dotnet add package BCrypt.Net-Next --version 4.0.3
+
+# Swagger / OpenAPI UI
+dotnet add package Swashbuckle.AspNetCore --version 6.6.2
+```
+
+Atau jika project sudah ada, restore semua sekaligus:
 
 ```bash
 dotnet restore
 ```
 
-Paket yang akan diunduh:
+Verifikasi semua paket sudah terinstall:
 
-| Paket | Fungsi |
-|-------|--------|
-| `BCrypt.Net-Next 4.0.3` | Hashing password |
-| `Microsoft.AspNetCore.Authentication.JwtBearer 8.0.0` | Middleware JWT |
-| `Microsoft.EntityFrameworkCore 8.0.0` | ORM |
-| `Microsoft.EntityFrameworkCore.Design 8.0.0` | Tools migrasi (dev only) |
-| `Npgsql.EntityFrameworkCore.PostgreSQL 8.0.0` | Driver PostgreSQL |
-| `Swashbuckle.AspNetCore 6.6.2` | Swagger/OpenAPI UI |
+```bash
+dotnet list package
+```
+
+Output yang diharapkan:
+
+| Paket | Versi | Fungsi |
+|-------|-------|--------|
+| `BCrypt.Net-Next` | 4.0.3 | Hashing & verifikasi password |
+| `Microsoft.AspNetCore.Authentication.JwtBearer` | 8.0.0 | Middleware JWT Bearer |
+| `Microsoft.EntityFrameworkCore` | 8.0.0 | ORM — query database via C# |
+| `Microsoft.EntityFrameworkCore.Design` | 8.0.0 | CLI tools untuk migrasi |
+| `Npgsql.EntityFrameworkCore.PostgreSQL` | 8.0.0 | Driver koneksi PostgreSQL |
+| `Swashbuckle.AspNetCore` | 6.6.2 | Swagger UI & OpenAPI spec |
 
 ---
 

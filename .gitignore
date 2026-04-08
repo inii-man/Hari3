@@ -1,0 +1,80 @@
+## ── .NET Build Output ──────────────────────────────────────────────────────
+bin/
+obj/
+out/
+publish/
+
+## ── NuGet ───────────────────────────────────────────────────────────────────
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+# Restore locks (opsional, uncomment jika tidak menggunakan lock file)
+# package.lock.json
+
+## ── Secrets & Konfigurasi Sensitif ─────────────────────────────────────────
+# JANGAN commit file ini — berisi JWT key, connection string, dll.
+appsettings.Development.json
+appsettings.Local.json
+appsettings.Production.json
+secrets.json
+
+# .NET User Secrets (disimpan lokal per developer)
+# Path: ~/.microsoft/usersecrets/<guid>/secrets.json
+# File referensinya ada di .csproj (UserSecretsId), bukan di sini
+
+## ── Entity Framework Core ───────────────────────────────────────────────────
+# File migrasi di-track oleh git (penting untuk tim)
+# Uncomment baris di bawah HANYA jika migrasi dikelola di luar repo
+# Migrations/
+
+## ── Logs ────────────────────────────────────────────────────────────────────
+*.log
+logs/
+Logs/
+
+## ── IDE — Visual Studio ─────────────────────────────────────────────────────
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+## ── IDE — JetBrains Rider ───────────────────────────────────────────────────
+.idea/
+*.sln.iml
+
+## ── IDE — VS Code ───────────────────────────────────────────────────────────
+.vscode/
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+## ── macOS ───────────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+## ── Windows ─────────────────────────────────────────────────────────────────
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+## ── Test Coverage ───────────────────────────────────────────────────────────
+coverage/
+*.coverage
+*.coveragexml
+TestResults/
+
+## ── Docker (jika dipakai nanti) ─────────────────────────────────────────────
+# docker-compose.override.yml
+
+## ── Misc ────────────────────────────────────────────────────────────────────
+*.bak
+*.tmp
+*.orig

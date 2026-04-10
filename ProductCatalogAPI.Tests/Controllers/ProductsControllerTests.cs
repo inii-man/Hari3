@@ -6,6 +6,12 @@ using ProductCatalogAPI.Models;
 
 namespace ProductCatalogAPI.Tests.Controllers;
 
+/// <summary>
+/// Unit test untuk ProductsController — menggunakan EF Core InMemory Database
+/// sebagai pengganti PostgreSQL nyata agar test dapat berjalan tanpa koneksi DB.
+/// Konvensi penamaan: MethodName_Scenario_ExpectedResult
+/// Pola: AAA (Arrange - Act - Assert)
+/// </summary>
 public class ProductsControllerTests : IDisposable
 {
     private readonly AppDbContext _db;
@@ -100,5 +106,93 @@ public class ProductsControllerTests : IDisposable
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
         Assert.Contains("Harga produk harus lebih dari 0", badRequestResult.Value?.ToString() ?? "");
+    }
+
+    // =========================================================================
+    //  UPDATE
+    // =========================================================================
+
+    [Fact]
+    public async Task Update_ValidId_ReturnsOkResult_WithUpdatedProduct()
+    {
+        // Arrange
+        var updatedData = new Product
+        {
+            Name        = "Laptop Pro",
+            Description = "Updated Description",
+            Price       = 20000000,
+            Stock       = 5,
+            Category    = "Electronics"
+        };
+
+        // Act
+        var result = await _controller.Update(1, updatedData);
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        var product  = Assert.IsType<Product>(okResult.Value);
+        Assert.Equal("Laptop Pro", product.Name);
+        Assert.Equal(20000000, product.Price);
+    }
+
+    [Fact]
+    public async Task Update_InvalidId_ReturnsNotFoundResult()
+    {
+        // Arrange
+        var updatedData = new Product { Name = "Ghost", Price = 1000, Category = "None" };
+
+        // Act
+        var result = await _controller.Update(999, updatedData);
+
+        // Assert
+        Assert.IsType<NotFoundObjectResult>(result);
+    }
+
+    // =========================================================================
+    //  DELETE
+    // =========================================================================
+
+    [Fact]
+    public async Task Delete_ValidId_ReturnsOkResult_WithConfirmationMessage()
+    {
+        // Arrange — produk ID=2 (Mouse) tersedia dari seed
+
+        // Act
+        var result = await _controller.Delete(2);
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        Assert.Contains("berhasil dihapus", okResult.Value?.ToString() ?? "");
+
+        // Verifikasi produk benar-benar terhapus dari DB
+        var deleted = await _db.Products.FindAsync(2);
+        Assert.Null(deleted);
+    }
+
+    [Fact]
+    public async Task Delete_InvalidId_ReturnsNotFoundResult()
+    {
+        // Arrange — ID 999 tidak ada di database
+
+        // Act
+        var result = await _controller.Delete(999);
+
+        // Assert
+        Assert.IsType<NotFoundObjectResult>(result);
+    }
+
+    // =========================================================================
+    //  GET ALL — Verifikasi list tidak null
+    // =========================================================================
+
+    [Fact]
+    public async Task GetAll_ReturnsOkResult_WithNonNullList()
+    {
+        // Act
+        var result = await _controller.GetAll();
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        Assert.NotNull(okResult.Value);
     }
 }

@@ -61,6 +61,8 @@ public class ProductsController : ControllerBase
             .Select(p => new { p.Id, p.Name, p.Category, p.Price })
             .ToListAsync();
 
+        Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(products));
+
         return Ok(new
         {
             message = "Data publik — login untuk melihat detail lengkap.",
